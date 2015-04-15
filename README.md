@@ -1,0 +1,1 @@
+![](https://ci.appveyor.com/api/projects/status/9e2ho2tmpn5tlkrq?svg=true)

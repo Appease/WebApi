@@ -1,0 +1,160 @@
+{
+  "swagger":"2.0",
+  "info": {
+    "title":"Appease web API",
+    "description":"A web API for Appease",
+    "version":"0.0.1"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "paths":{
+    "/devops":{
+      "get":{
+        "tags":[
+          "devops"
+        ],
+        "x-swagger-router-controller":"endpoints",
+        "operationId":"getDevops",
+        "responses":{
+          "200":{
+            "description":"successful operation",
+            "schema":{
+              "type":"array",
+              "items":{
+                "$ref":"#/definitions/DevOpRef"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions":{
+    "DevOpRef": {
+      "id": "DevOpRef",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the devop"
+        },
+        "taskNames": {
+          "type": "array",
+          "description": "The names of the tasks associated with the devop",
+          "items": {
+            "type": "string",
+            "description": "The name of the task"
+          }
+        },
+        "configurationNames": {
+          "type": "array",
+          "description": "The names of the configurations associated with the devop",
+          "items": {
+            "type": "string",
+            "description": "The name of the configuration"
+          }
+        }
+      }
+    },
+    "DevOp": {
+      "id": "DevOp",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the devop"
+        },
+        "tasks": {
+          "type": "array",
+          "description": "Tasks associated with the devop",
+          "items": {
+            "$ref": "#/definitions/Task"
+          }
+        },
+        "configurations": {
+          "type": "array",
+          "description": "Configurations associated with the devop",
+          "items": {
+            "$ref": "#/definitions/Configuration"
+          }
+        }
+      }
+    },
+    "Task": {
+      "id": "Task",
+      "required": [
+        "devopName",
+        "name",
+        "templateId"
+      ],
+      "properties": {
+        "devopName": {
+          "type": "string",
+          "description": "Name of the devop the task is for"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the task"
+        },
+        "templateId": {
+          "type": "string",
+          "description": "Id of the task template the task implements"
+        },
+        "templateVersion": {
+          "type": "string",
+          "description": "The version of the task template the task implements"
+        },
+        "order": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "description": "The order with respect to other tasks in the devop"
+        },
+        "enableParallelExecution": {
+          "type": "boolean",
+          "description": "If parallel execution of this task and the previous task is supported",
+          "default": "false"
+        }
+      }
+    },
+    "Configuration": {
+      "id": "Configuration",
+      "required": [
+        "devopName",
+        "name"
+      ],
+      "properties": {
+        "devopName": {
+          "type": "string",
+          "description": "Name of the devop the task is for"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the configuration"
+        },
+        "variables": {
+          "type": "array",
+          "description": "Variables which have been set for this configuration",
+          "items": {
+            "$ref":"#/definitions/Variable"
+          }
+        }
+      }
+    },
+    "Variable":{
+      "id":"Variable",
+      "required":["name","value"],
+      "properties":{
+        "name":{
+          "type":"string",
+          "description":"The name of the variable"
+        },
+        "value":{
+          "type":"string",
+          "description":"The value of the variable"
+        }
+      }
+    }
+  }
+}
